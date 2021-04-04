@@ -29,7 +29,6 @@ teeconfirm() {
     if ! $(grep -q "$line" $f); then
         echo
         echo "Add the line '$line' to '$f'"
-        ! confirm && exit
         echo "$line" | sudo tee -a $f
     fi
 }
@@ -50,6 +49,7 @@ SOFTWARE.
 
 Continue with modifications?
 EOF
+
 ! confirm && exit
 
 teeconfirm "dtoverlay=dwc2" "/boot/config.txt"
@@ -71,7 +71,6 @@ teeconfirm "denyinterfaces usb0" "/etc/dhcpcd.conf"
 if [[ ! -e /usr/sbin/dnsmasq ]] ; then
     echo
     echo "Install dnsmasq"
-    ! confirm && exit
     sudo apt install dnsmasq
 fi
 
@@ -189,7 +188,6 @@ fi
 if ! $(grep -q $USBFILE /etc/rc.local) ; then
     echo
     echo "Add line '$USBFILE' to /etc/rc.local'?"
-    ! confirm && exit
     sudo sed -i "/^exit 0/i $USBFILE" /etc/rc.local    
 fi
 
